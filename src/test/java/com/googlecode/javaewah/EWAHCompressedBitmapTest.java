@@ -412,10 +412,47 @@ public class EWAHCompressedBitmapTest {
     
     @Test
     public void jugovacTest() {
-        EWAHCompressedBitmap bm1 = new EWAHCompressedBitmap(1);
-        bm1.set(1);
-        EWAHCompressedBitmap bm2 = new EWAHCompressedBitmap(0);
-        bm1.andCardinality(bm2);
+
+        EWAHCompressedBitmap bm1 = new EWAHCompressedBitmap();
+        EWAHCompressedBitmap bm2 = new EWAHCompressedBitmap();
+        EWAHCompressedBitmap newBm = new EWAHCompressedBitmap();
+        bm1.set(32);
+        bm1.set(68);
+        bm1.set(145);
+        bm1.set(190);
+        bm1.set(191);
+        bm1.set(192);
+        bm1.set(193);
+        bm1.set(194);
+        bm1.set(195);
+        bm1.set(196);
+        bm1.set(197);
+        bm1.set(198);
+        bm1.set(199);
+        bm1.set(210);
+        bm1.set(225);
+        bm2.set(67);
+        bm2.set(68);
+        String abc = bm1.toRLWString();
+        String[] words = abc.split(",");
+        for (int i = 0; i < words.length; i++) {
+            if(i==words.length-1)
+                newBm.setBufferWord(i, Long.parseLong(words[i]), true);
+            else
+                newBm.setBufferWord(i, Long.parseLong(words[i]), false);
+        }
+        int a = bm1.toArray()[newBm.toArray().length-1];
+        int i = bm1.cardinality();
+        int j = newBm.cardinality();
+
+        int car1 = bm1.and(bm2).cardinality();
+        int car2 = newBm.and(bm2).cardinality();
+
+        String sd = "sdasd";
+
+      //  EWAHCompressedBitmap correct = new EWAHCompressedBitmap(newBm.buffer);
+        String sdf = "sdasd";
+
     }
     
     @Test

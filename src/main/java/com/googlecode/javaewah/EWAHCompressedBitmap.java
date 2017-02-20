@@ -1633,6 +1633,30 @@ public final class EWAHCompressedBitmap implements Cloneable, Externalizable,
         return ans.toString();
     }
 
+    public String toRLWString() {
+        StringBuilder ans = new StringBuilder();
+
+        final EWAHIterator i = this.getEWAHIterator();
+        for (int j = 0; j < this.rlw.buffer.sizeInWords() ; j++) {
+            if(j!=0){
+                ans.append(",");
+            }
+            ans.append(this.getEWAHIterator().buffer().getWord(j));
+        }
+        return ans.toString();
+    }
+
+
+    public Long[] toRLWArray() {
+        List<Long> array = new ArrayList<Long>();
+
+        final EWAHIterator i = this.getEWAHIterator();
+        for (int j = 0; j < this.rlw.buffer.sizeInWords() ; j++) {
+            array.add(this.getEWAHIterator().buffer().getWord(j));
+        }
+        return array.toArray(new Long[array.size()]);
+    }
+
     /**
      * A string describing the bitmap.
      *
@@ -2105,6 +2129,16 @@ public final class EWAHCompressedBitmap implements Cloneable, Externalizable,
         }
         answer.sizeInBits = this.sizeInBits + b;
         return answer;
+    }
+
+    public void setBufferWord(int position, long word, boolean lastword){
+        if(position == 0){
+            buffer.setWord(position, word);
+        }else{
+            buffer.push_back(word);
+        }
+        if(lastword)
+            this.sizeInBits = this.toArray()[this.cardinality() -1] + 1;
     }
 
     /**
